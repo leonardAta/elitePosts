@@ -21,6 +21,14 @@ var blogRealm = new Realm({
 
 
 app.use(bodyParser.urlencoded({extended: true}))
+
+app.use("/css", express.static(__dirname + '/css'));
+
+app.use("/img", express.static(__dirname + '/img'));
+
+app.use("/vendor", express.static(__dirname + '/vendor'));
+
+
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
@@ -31,6 +39,10 @@ app.get('/', function(req, res) {
 
 app.get('/write', function(req, res) {
 	res.sendFile(__dirname + "/write.html");
+});
+
+app.get('/home', function(req, res) {
+	res.sendFile(__dirname + "/index.html");
 });
 
 app.post('/write', function(req, res) {
