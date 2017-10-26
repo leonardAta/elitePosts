@@ -6,14 +6,6 @@ var express 	 = require('express'),
 
 const routes	 = require('./routes');
 
-let PostSchema = {
-	name: 'Post',
-	properties: {
-		timestamp: 'date',
-		title:'string',
-		content: 'string'
-	}
-}
 
 var blogRealm = new Realm({
 	path:'blog.realm',
