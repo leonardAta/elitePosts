@@ -45,6 +45,10 @@ app.get('/home', function(req, res) {
 	res.sendFile(__dirname + "/index.html");
 });
 
+app.get('/post', function(req, res) {
+	res.sendFile(__dirname + "/post.html");
+});
+
 app.post('/write', function(req, res) {
 	let title 	= req.body['title'],
 			content = req.body['content'],
