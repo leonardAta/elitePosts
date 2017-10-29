@@ -4,6 +4,11 @@ routes.get('/', (req, res) => {
   res.status(200).json({ message: 'Connected!' });
 });
 
+routes.get('/', function(req, res) {
+	let posts = blogRealm.objects('Post').sorted('timestamp', true);
+	res.render('index.ejs', {posts: posts});
+});
+
 routes.get('/write', function(req, res) {
 	res.sendFile(__dirname + "/write.html");
 });

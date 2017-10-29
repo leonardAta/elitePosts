@@ -10,4 +10,9 @@ PostSchema = new mongoose.Schema({
 	}
 });
 
+var blogRealm = new Realm({
+	path:'blog.realm',
+	schema: [PostSchema]
+});
+
 module.exports = mongoose.model('Post', PostSchema);
