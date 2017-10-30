@@ -9,6 +9,7 @@ routes.get('/', function(req, res) {
 	res.render('index.ejs', {posts: posts});
 });
 
+
 routes.get('/write', function(req, res) {
 	res.sendFile(__dirname + "/write.html");
 });
@@ -25,6 +26,10 @@ routes.post('/write', function(req, res) {
 	let title 	= req.body['title'],
 			content = req.body['content'],
 			timestamp = new Date();
+});
+
+routes.get('../views/includes', function(req, res) {
+	res.sendFile(__dirname + "/header.ejs");
 });
 
 routes.get('/', function(req, res) {
