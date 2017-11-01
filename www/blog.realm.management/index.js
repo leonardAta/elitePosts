@@ -2,8 +2,7 @@
 var express 	 = require('express'),
 		bodyParser = require('body-parser'),
 		Realm			 = require('realm'),
-		app 			 = express(),
-		paths			 = require('path');
+		app 			 = express();
 
 const routes	 = require('./routes/index');
 var		Postschema 	 = require('./models/Post');
@@ -33,16 +32,12 @@ app.use("/vendor", express.static(__dirname + '/vendor'));
 
 
 app.set('view engine', 'ejs');
-app.set('views', paths.join(__dirname, 'views'));
 
 app.get('/', function(req, res) {
 	let posts = blogRealm.objects('Post').sorted('timestamp', true);
-	res.render('../views/blog.ejs', {posts: posts});
+	res.render('index.ejs', {posts: posts});
 });
 
-app.get('/about', function(req, res) {
-	res.render('about.ejs');
-});
 
 app.get('/write', function(req, res) {
 	res.sendFile(__dirname + "/write.html");

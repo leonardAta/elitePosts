@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
+var	Realm		 = require('realm');
 const Schema = mongoose.Schema;
 
 PostSchema = new mongoose.Schema({
-	name: 'Post',
+	name: {type: 'string'},
 	properties: {
 		timestamp: 'date',
 		title:'string',
@@ -10,9 +11,9 @@ PostSchema = new mongoose.Schema({
 	}
 });
 
-var blogRealm = new Realm({
-	path:'blog.realm',
-	schema: [PostSchema]
-});
+// var blogRealm = new Realm({
+// 	path:'blog.realm',
+// 	schema: [PostSchema]
+// });
 
 module.exports = mongoose.model('Post', PostSchema);
