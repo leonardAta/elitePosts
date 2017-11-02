@@ -2,11 +2,13 @@
 var express 	 = require('express'),
 		bodyParser = require('body-parser'),
 		Realm			 = require('realm'),
-		app 			 = express(),
-		paths			 = require('path');
+		paths			 = require('path'),
+		mongoose	 = require('mongoose');
 
-const routes	 = require('./routes/index');
-var		Postschema 	 = require('./models/Post');
+const routes	 		 = require('./routes/index');
+// var		Postschema 	 = require('./models/Post');
+
+var app 			 = express();
 
 let PostSchema = {
 	name: 'Post',

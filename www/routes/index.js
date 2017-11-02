@@ -5,15 +5,6 @@ routes.get('/', (req, res) => {
   res.status(200).json({ message: 'Connected!' });
 });
 
-// routes.get('/', function(req, res) {
-// 	let posts = blogRealm.objects('Post').sorted('timestamp', true);
-// 	res.render('index.ejs', {posts: posts});
-// });
-
-// routes.get('/blog', function(req, res) {
-// 	let posts = blogRealm.objects('Post').sorted('timestamp', true);
-// 	res.render('blog.ejs', {posts:posts});
-// })
 
 routes.get('/about', function(req, res) {
 	res.render('about.ejs');
@@ -37,13 +28,5 @@ routes.post('/write', function(req, res) {
 			timestamp = new Date();
 });
 
-// routes.get('../views/includes', function(req, res) {
-// 	res.sendFile(__dirname + "/header.ejs");
-// });
-
-// routes.get('/', function(req, res) {
-// 	let posts = blogRealm.objects('Post').sorted('timestamp', true);
-// 	res.render('index.ejs', {posts: posts});
-// });
 
 module.exports = routes;
