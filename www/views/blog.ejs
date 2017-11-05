@@ -13,12 +13,13 @@
   <% include partials/pagehead %>
 
   <!-- Main Content -->
+  <a href="/write">Write</a>
 
-  <% for (var i=0; i < posts.length; i++) { %>
+  <% for (var i=0; i < Posts.length; i++) { %>
   <div class="post-preview">
-  <h2 class="post-title"><a href="/post"><%= posts[i].title %></a></h2>
-  <p class="post-meta">Posted by <a href="http://www.facebook.com/leonard.ata">Leonard Ata</a> on August 24, 2017</p>
-  <p><%= posts[i].content %></p>
+  <h2 class="post-title"><a href="/post"><%= Posts[i].title %></a></h2>
+  <p class="post-meta">Posted by <a href="#"><%= Posts[i].author %></a> on August 24, 2017</p>
+  <p><%= Posts[i].content %></p>
   <% } %>
   </div>
   <hr>
@@ -40,5 +41,6 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/clean-blog.min.js"></script>
+  <script src="main.js"></script>
 
 </body>

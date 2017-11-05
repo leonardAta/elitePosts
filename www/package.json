@@ -14,7 +14,7 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "serve": "nodemon index.js"
+    "serve": "nodemon app.js"
   },
   "keywords": [
     "blog",

@@ -6,7 +6,7 @@ var express 	 = require('express'),
 		mongoose	 = require('mongoose');
 
 const routes	 		 = require('./routes/index');
-// var		Postschema 	 = require('./models/Post');
+//var		Postschema 	 = require('./models/Post');
 
 var app 			 = express();
 
@@ -26,6 +26,8 @@ var blogRealm = new Realm({
 
 
 app.use(bodyParser.urlencoded({extended: true}))
+
+app.use("/public", express.static(__dirname + 'public'));
 
 app.use("/css", express.static(__dirname + '/css'));
 
