@@ -1,0 +1,24 @@
+<head>
+<title>Edit Post</title>
+ <% include partials/header %>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <% include partials/nav %>
+
+  <!-- Page Header -->
+  <% include partials/pagehead %>
+<body>
+<form action="/edit" method="POST">
+	<% for(var i=0; i < Posts.length; i++) { %>
+	<input type="text" name="title" placeholder="post title" value="<%= Posts[i].title %>"/><br />
+	<input type="text" name="author" placeholder="author" value="<%= Posts[i].author %>/><br />
+	<textarea name="content" placeholder="content" value="<%= Posts[i].content %>"></textarea><br />	
+<button type="submit" id="update">Update</button>
+<% } %>
+<% include partials/footer %>
+<script src="public/main.js"></script>
+</body>

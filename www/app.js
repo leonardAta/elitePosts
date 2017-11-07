@@ -3,7 +3,8 @@ var express 	 = require('express'),
 		bodyParser = require('body-parser'),
 		Realm			 = require('realm'),
 		paths			 = require('path'),
-		mongoose	 = require('mongoose');
+		mongoose	 = require('mongoose'),
+		ejs				 = require('ejs');
 
 const routes	 		 = require('./routes/index');
 const MongoClient	 = require('mongodb').MongoClient;
@@ -32,7 +33,8 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use(express.static('public'));
 
-app.use("/public", express.static(__dirname + 'public'));
+
+app.use("/public", express.static(__dirname + '/public'));
 
 app.use("/css", express.static(__dirname + '/css'));
 
@@ -44,49 +46,34 @@ app.use("/vendor", express.static(__dirname + '/vendor'));
 app.set('view engine', 'ejs');
 app.set('views', paths.join(__dirname, 'views'));
 
-// app.get('/', function(req, res) {
-// 	let posts = blogRealm.objects('Post').sorted('timestamp', true);
-// 	res.render('../views/blog.ejs', {posts: posts});
-// });
-
-
 
 app.get('/about', function(req, res) {
 	res.render('about.ejs');
 });
 
 app.get('/write', function(req, res) {
-	res.sendFile(__dirname + "/write.html");
+	res.render("write.ejs");
 });
 
-app.get('/home', function(req, res) {
-	res.sendFile(__dirname + "/index.html");
+app.get('/edit', function(req, res) {
+	res.render('edit.ejs');
 });
+
 
 app.get('/post', function(req, res) {
-	res.sendFile(__dirname + "/post.html");
+	res.render("post.ejs");
 });
 
 
-// app.post('/write', function(req, res) {
-// 	let title 	= req.body['title'],
-// 			content = req.body['content'],
-// 			timestamp = new Date();
-
-// 	blogRealm.write(() => {
-// 		blogRealm.create('Post', {title: title, content: content, timestamp: timestamp});
-// 	});	
-
-// 	res.sendFile(__dirname + "/write-complete.html");
-// });
 var db;
 
+// post request to the route
 app.post('/write', function(req, res) {
 	db.collection('Posts').save(req.body, function(err, result) {
 		if(err) return console.log(err);
-
-		console.log('saved to database')
-		res.redirect('/');
+		console.log('saved to database');
+		res.send('Successfully inserted!');
+		//res.redirect('/');
 	})
 })
 
@@ -95,27 +82,28 @@ app.get('/', function(req, res) {
 	var cursor = db.collection('Posts').find();
 	db.collection('Posts').find().toArray((err, result) =>{
 		if (err) return console.log(err)
+
 		res.render('../views/blog.ejs', {Posts: result})	
 	})
 
 });
 
 // update request to the route
-app.put('/Posts', function(req, res) {
+app.put('/edit', function(req, res, next) {
 
-	db.collection('Posts').findOneAndUpdate({title: 'Social Marketing for Developers'}, {
-		$set: {
-			title: req.body.title,
-			author: req.body.author,
-			content: req.body.content
-
-		}
+	db.collection('Posts').findOneAndUpdate({ }, {		
+		$set: {title: Posts[i].title,
+					 author: Posts[i].author,
+					 content: Posts[i].content }
 	}, {
 		sort: {_id: -1},
-		upsert: true
+		upsert: true,
+		returnNewDocument: true
 	}, function(err, result) {
 		if (err) return res.send(err);
 			res.send(result);
+			console.log('edited and saved to database');
+			res.redirect('/');
 	});
 }
 // .then(res =>{
@@ -127,7 +115,7 @@ app.put('/Posts', function(req, res) {
 );
 
 // database connection with mlabs
-MongoClient.connect('mongodb://blog-elitepath:blog-elitepath@ds243325.mlab.com:43325/blog-elitepath', (err, database) => {
+MongoClient.connect('mongodb://server-connection', (err, database) => {
       // ... start the server
       if (err) return console.log(err);
       db = database;
