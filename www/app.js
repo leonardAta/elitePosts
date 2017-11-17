@@ -4,6 +4,10 @@ var express 	 = require('express'),
 		Realm			 = require('realm'),
 		paths			 = require('path'),
 		mongoose	 = require('mongoose'),
+		nodemailer = require('nodemailer'),
+		mg 				 = require('nodemailer-mailgun-transport'),
+		nconf 		 = require('nconf'),
+		auth 			 =  require('./config.json'),
 		ejs				 = require('ejs');
 
 const routes	 		 = require('./routes/index');
@@ -13,19 +17,6 @@ const MongoClient	 = require('mongodb').MongoClient;
 
 var app 			 = express();
 
-let PostSchema = {
-	name: 'Post',
-	properties: {
-		timestamp: 'date',
-		title:'string',
-		content: 'string'
-	}
-}
-
-var blogRealm = new Realm({
-	path:'blog.realm',
-	schema: [PostSchema]
-});
 
 
 app.use(bodyParser.json());
@@ -36,7 +27,7 @@ app.use(express.static('public'));
 
 app.use("/public", express.static(__dirname + '/public'));
 
-app.use("/css", express.static(__dirname + '/css'));
+app.use("/css", express.static(paths.join(__dirname + '/css')));
 
 app.use("/img", express.static(__dirname + '/img'));
 
@@ -59,9 +50,18 @@ app.get('/edit', function(req, res) {
 	res.render('edit.ejs');
 });
 
+app.get('/contact', function(req, res) {
+	res.render('contact.ejs');
+})
+
 
 app.get('/post', function(req, res) {
-	res.render("post.ejs");
+	var cursor = db.collection('Posts').find();
+	db.collection('Posts').find().toArray((err, result) =>{
+		if (err) return console.log(err)
+
+		res.render('post.ejs', {Posts: result})	
+	})
 });
 
 
@@ -89,12 +89,14 @@ app.get('/', function(req, res) {
 });
 
 // update request to the route
-app.put('/edit', function(req, res, next) {
+app.put('/edit', function(req, res) {
+	const updates = {
+		title: req.body.title,
+		content: req.body.content
+	};
 
-	db.collection('Posts').findOneAndUpdate({ }, {		
-		$set: {title: Posts[i].title,
-					 author: Posts[i].author,
-					 content: Posts[i].content }
+	db.collection('Posts').findOneAndUpdate({_id: req.user.id }, {		
+		$set: { updates }
 	}, {
 		sort: {_id: -1},
 		upsert: true,
@@ -114,8 +116,40 @@ app.put('/edit', function(req, res, next) {
 // })
 );
 
+// handle contact posts
+app.post('/contact', function(req, res) {
+	var name 		= req.body.name;
+	var email 	= req.body.email;
+	//var company = req.body.company;
+	var phone		= req.body.phone;
+	var message = req.body.message;
+	var isError = false;
+
+	//create transporter object capable of sending mails via SMTP
+	var transporter = nodemailer.createTransport(mg(auth));
+
+	//set up email data with unicode symbols
+	var mailOptions = {
+		from: '"ElitePath Software Ltd"<email@domain.org>', // sender
+		to:'email@domain.com',
+		subject: 'Message From elitePath',
+		text: message,
+		err: isError 
+	};
+	// send mail with defined transport object
+	transporter.sendMail(mailOptions, function(error, info) {
+		if(error) {
+			console.log('\nERROR: ' + error+'\n');	
+		} else {
+				console.log('\nRESPONSE SENT: ' + info.response+'\n');
+		}
+	});
+});
+
+
+
 // database connection with mlabs
-MongoClient.connect('mongodb://server-connection', (err, database) => {
+MongoClient.connect('dbconn', (err, database) => {
       // ... start the server
       if (err) return console.log(err);
       db = database;

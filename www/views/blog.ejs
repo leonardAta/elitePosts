@@ -13,22 +13,28 @@
   <% include partials/pagehead %>
 
   <!-- Main Content -->
-  <a href="/write">Write</a>
-  <a href="/edit">Edit</a>
+  <div class="container">
+    <div class="row">
+     <div class="col-lg-8 col-md-10 mx-auto">
 
+        <% for (var i=0; i < Posts.length; i++) { %>
+        <div class="post-preview">
+        <a href="/post">
+        <h2 class="post-title"><%= Posts[i].title %></h2>
+        <h3 class="post-subtitle"><%= Posts[i].content %></h3>
+        </a>
+        <p class="post-meta">Posted by <a href="#"><%= Posts[i].author %></a> on August 24, 2017</p>
+        
+        <% } %>
+        </div>
+        <hr>
 
-  <% for (var i=0; i < Posts.length; i++) { %>
-  <div class="post-preview">
-  <h2 class="post-title"><a href="/post"><%= Posts[i].title %></a></h2>
-  <p class="post-meta">Posted by <a href="#"><%= Posts[i].author %></a> on August 24, 2017</p>
-  <p><%= Posts[i].content %></p>
-  <% } %>
-  </div>
-  <hr>
-
-  <!-- Pager -->
-  <div class="clearfix">
-    <a class="btn btn-secondary float-right" href="#">Older Posts &rarr;</a>
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-secondary float-right" href="#">Older Posts &rarr;</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
