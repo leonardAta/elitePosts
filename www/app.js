@@ -1,14 +1,14 @@
 'use strict';
-var express 	 = require('express'),
+var express = require('express'),
 		bodyParser = require('body-parser'),
-		Realm			 = require('realm'),
-		paths			 = require('path'),
-		mongoose	 = require('mongoose'),
+		Realm	= require('realm'),
+		paths	= require('path'),
+		mongoose = require('mongoose'),
 		nodemailer = require('nodemailer'),
-		mg 				 = require('nodemailer-mailgun-transport'),
-		nconf 		 = require('nconf'),
-		auth 			 = require('./config.json'),
-		ejs				 = require('ejs');
+		mg = require('nodemailer-mailgun-transport'),
+		nconf = require('nconf'),
+		auth = require('./config.json'),
+		ejs	= require('ejs');
 
 const routes	 		 = require('./routes/index');
 const MongoClient	 = require('mongodb').MongoClient;
