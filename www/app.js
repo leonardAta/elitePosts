@@ -7,13 +7,11 @@ var express 	 = require('express'),
 		nodemailer = require('nodemailer'),
 		mg 				 = require('nodemailer-mailgun-transport'),
 		nconf 		 = require('nconf'),
-		auth 			 =  require('./config.json'),
+		auth 			 = require('./config.json'),
 		ejs				 = require('ejs');
 
 const routes	 		 = require('./routes/index');
 const MongoClient	 = require('mongodb').MongoClient;
-
-//var		Postschema 	 = require('./models/Post');
 
 var app 			 = express();
 
@@ -130,7 +128,7 @@ app.post('/contact', function(req, res) {
 
 	//set up email data with unicode symbols
 	var mailOptions = {
-		from: '"ElitePath Software Ltd"<email@domain.org>', // sender
+		from: "'ElitePath Software Ltd'<email@domain.org>", // sender
 		to:'email@domain.com',
 		subject: 'Message From elitePath',
 		text: message,
